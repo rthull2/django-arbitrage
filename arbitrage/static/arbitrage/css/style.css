@@ -1,0 +1,33 @@
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+div.table-reponsive {
+    border-right: 1px solid #333;
+}
+
+div.col-scroll {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.inline {
+    display: inline;
+}
+
+form {
+    padding-right: 50px;
+}
+
+.glyphicon-ok {
+    color: green;
+}
+
+.glyphicon-remove {
+    color: red;
+}
+
+.highlight {
+    background-color: rgb(221, 220, 220);
+}

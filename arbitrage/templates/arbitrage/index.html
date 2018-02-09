@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    {% load extras %}
+    <title>Arbitrage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{%  static 'arbitrage/images/favicon.ico' %}" size='32x32' />
+    <link rel='stylesheet' type='text/css' href="{% static 'arbitrage/css/style.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script type='application/javascript' src="{% static 'arbitrage/js/functions.js' %}"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="http://localhost:8000/magic/">Arbitrage</a>
+            </div>
+        </div>
+    </nav>
+    <div class="well well-sm">
+        <form class="inline">
+            <input id='coinsearch' type='text'>
+        </form>
+        <div class="btn-group inline exchanges">
+            {% for exchange in exchange_list %}
+            {% if exchange.name in approved_exch %}
+            <button type="button" class="btn btn-success" id={{ exchange.name }}>{{ exchange.name }}</button>
+            {% else %}
+            <button type="button" class="btn btn-danger" id={{ exchange.name }}>{{ exchange.name }}</button>
+            {% endif %} {% endfor %}
+        </div>
+
+    </div>
+    <div class="table-reponsive col-sm-2 col-scroll">
+        <table class="table" id="ratiotable">
+            <thead>
+                <tr>
+                    <th class="col-sm-2">Name</th>
+                    <th class="col-sm-1">Ratio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for coin in coin_list %}
+                <tr name="{{ coin.name }}" symbol="{{ coin.symbol }}">
+                    <td class="col-sm-2">{{ coin.name }}</td>
+                    <td class="col-sm-1 ratio">{{ coin|getRatio:approved_exch }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="table-reponsive col-sm-4">
+        <table class="table" id="markettable">
+            <thead>
+                <tr>
+                    <th class="col-sm-2">Source</th>
+                    <th class="col-sm-1">Base</th>
+                    <th class="col-sm-1">Wallet</th>
+                    <th class="col-sm-1 text-right">Volume (24h)</th>
+                    <th class="col-sm-1 text-right">Price</th>
+                </tr>
+            </thead>
+            <tbody class='marketInfo'>
+
+            </tbody>
+        </table>
+    </div>
+    <div class="table-reponsive col-sm-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
