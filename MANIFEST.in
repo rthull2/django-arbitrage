@@ -1,6 +1,0 @@
-include LICENSE
-include README.rst
-recursive-include arbitrage/management *
-recursive-include arbitrage/static *
-recursive-include arbitrage/templates *
-recursive-include arbitrage/templatetags *
