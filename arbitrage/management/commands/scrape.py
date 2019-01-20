@@ -1,14 +1,16 @@
+import urllib3
 import threading
 from socket import timeout
 from bs4 import BeautifulSoup
 from arbitrage.models import Market, Exchange, Coin
-from urllib.request import urlopen
 from django.core.management.base import BaseCommand
+urllib3.disable_warnings()
 
 class Command(BaseCommand):
     help = 'Populate Market table with info from CMC'
 
     def handle(self, *args, **options):
+        self.http = urllib3.PoolManager()
         Market.objects.all().delete()
         threads = []
         for ex in Exchange.objects.all():
@@ -21,14 +23,14 @@ class Command(BaseCommand):
     def downloadpage(self, url):
         while True:
             try:
-                return urlopen(url, timeout=1)
+                return self.http.request('GET', url, timeout=1)
             except timeout:
                 pass
 
     def scrapeExchange(self, exchange):
         exname = exchange.name.replace('.', '-')
         html = self.downloadpage('https://coinmarketcap.com/exchanges/' + exname)
-        soup = BeautifulSoup(html, 'html.parser')
+        soup = BeautifulSoup(html.data, 'html.parser')
         rows = soup.findAll('tr')
         markets = []
         for row in rows:
