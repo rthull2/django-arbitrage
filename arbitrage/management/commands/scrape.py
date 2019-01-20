@@ -24,7 +24,7 @@ class Command(BaseCommand):
         while True:
             try:
                 return self.http.request('GET', url, timeout=1)
-            except timeout:
+            except Exception:
                 pass
 
     def scrapeExchange(self, exchange):

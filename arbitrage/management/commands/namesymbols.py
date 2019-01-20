@@ -13,7 +13,7 @@ class Command(BaseCommand):
         html = self.downloadpage('https://coinmarketcap.com/all/views/all/')
         soup = BeautifulSoup(html.data, 'html.parser')
         rows = soup.findAll('tr')
-        for row in rows:
+        for row in rows[:200]:
             if row is rows[0]:
                 continue
             try:
@@ -38,9 +38,10 @@ class Command(BaseCommand):
             if len(string) > 10:
                 return string
 
+
     def downloadpage(self, url):
         while True:
             try:
                 return self.http.request('GET', url)
-            except (urllib.error.HTTPError, urllib.error.URLError, http.client.RemoteDisconnected):
+            except Exception:
                 pass

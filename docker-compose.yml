@@ -10,7 +10,6 @@ services:
     command: >
       sh -c "python /code/manage.py migrate &&
               python /code/manage.py exchanges &&
-              python /code/manage.py namesymbols && 
               python /code/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
